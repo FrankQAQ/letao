@@ -1,3 +1,25 @@
+/* 将a标签默认样式重置 */
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+}
+
+/* 将ul默认样式重置 */
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+
+
+/* 登录界面样式 */
 .body_bg {
     background-color: #222D32;
 }
@@ -9,4 +31,69 @@
 }
 .mt_150 {
     margin-top: 150px;
+}
+
+
+
+/* 侧边栏样式 */
+.lt_aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 180px;
+    height: 100%;
+    background-color:#222D32;
+}
+.lt_aside .brand {
+    width: 180px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #367FA9;
+}
+.lt_aside .brand a {
+    color: #fff;
+    font-size: 25px;
+}
+
+.lt_aside .user {
+    padding-top: 30px;
+    height: 180px;
+}
+
+.lt_aside .user img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    display: block;
+    border-radius:50%;
+}
+.lt_aside .user p{
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    color:#fff;
+    text-align: center;
+}
+
+.lt_aside .nav li i {
+    margin-right: 5px;
+}
+
+.lt_aside .nav li a {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    color: #fff;
+    padding-left: 40px;
+    border-left: 3px solid transparent;
+}
+.lt_aside .nav .child a {
+    padding-left: 60px;
+  
+}
+.lt_aside .nav li a.current {
+    background-color: #1D1F21;
+    border-left:3px solid #006699;
 }
