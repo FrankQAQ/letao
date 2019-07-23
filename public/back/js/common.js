@@ -36,7 +36,29 @@ $(function(){
  // 3.退出按钮, 点击显示退出模态框
   $('.icon_logout').click(function(){
     $('#logoutModal').modal("show");
-  })
+  });
+
+  $('#logoutBtn').click(function(){
+    // 退出功能，通过后台提供的接口，在服务器端销毁该用户的登录状态
+    $.ajax({
+      type:"get",
+      url:"/employee/employeeLogout",
+      dataType:"json",
+      success: function(info){
+        // 退出成功，跳转到登录页
+        if(info.success){
+          location.href="login.html";
+        }
+      
+      }
+
+
+    })
+  });
+
+  // 4.登录拦截功能，当前没登录的用户，
+  // 需要拦截到登录页,这个功能需要单独放在文件里：checklogin.js
+
 
 
 });
