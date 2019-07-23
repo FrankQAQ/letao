@@ -15,10 +15,6 @@ ul {
 
 
 
-
-
-
-
 /* 登录界面样式 */
 .body_bg {
     background-color: #222D32;
@@ -32,6 +28,9 @@ ul {
 .mt_150 {
     margin-top: 150px;
 }
+.red {
+    color: #A94442;
+}
 
 
 
@@ -44,6 +43,10 @@ ul {
     height: 100%;
     background-color:#222D32;
     z-index: 999;
+    transition: all 1s;
+}
+.lt_aside.hidemenu {
+    left: -180px;
 }
 .lt_aside .brand {
     width: 180px;
@@ -110,6 +113,10 @@ ul {
     height: 50px;
     background-color: #3C8DBC;
     padding-left: 180px;
+    transition: all 1s;
+}
+.lt_topbar.hidemenu {
+    padding-left: 0;
 }
 .lt_topbar a {
     width: 50px;
@@ -123,6 +130,10 @@ ul {
 .lt_main {
     padding-top: 50px;
     padding-left: 180px;
+    transition: all 1s;
+}
+.lt_main.hidemenu {
+    padding-left: 0;
 }
 .lt_main .breadcrumb {
     margin-top: 30px;
