@@ -13,6 +13,13 @@ ul {
     padding: 0;
 }
 
+/* 表格中内容水平垂直居中 */
+.table.table-bordered tr th,
+.table.table-bordered tr td {
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 
 /* 登录界面样式 */

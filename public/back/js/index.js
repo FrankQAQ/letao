@@ -31,7 +31,7 @@ Histogram.setOption(option1);
 
 var echars2 = echarts.init(document.querySelector(".echarts-2"));
   option2 = {
-    title : {
+    title : {0
       text: '热门品牌销售',
       // 子标题
       subtext: '2017年6月',
