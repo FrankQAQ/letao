@@ -114,6 +114,7 @@ ul {
     background-color: #3C8DBC;
     padding-left: 180px;
     transition: all 1s;
+    z-index: 666;
 }
 .lt_topbar.hidemenu {
     padding-left: 0;
@@ -128,6 +129,8 @@ ul {
 }
 
 .lt_main {
+    height: 1000px;
+    width: 100%;
     padding-top: 50px;
     padding-left: 180px;
     transition: all 1s;
@@ -137,4 +140,17 @@ ul {
 }
 .lt_main .breadcrumb {
     margin-top: 30px;
+}
+
+
+/* 图表容器样式 */
+.echarts-1 {
+    width: 48%;
+    height: 400px;
+    background-color: pink;
+}
+.echarts-2 {
+    width: 48%;
+    height: 400px;
+    background-color: pink;
 }
