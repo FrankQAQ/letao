@@ -4,6 +4,7 @@ $(function(){
 
     var currentPage = 1;//表示当前页
     var pageSize= 5; //表示每页多少条
+    var currentId;  //声明一个全局变量，保存用户ID
 
     render();  //一进入页面就渲染
 
@@ -51,6 +52,43 @@ $(function(){
         
     }
 
+
+    // A.点击启用，禁用按钮，显示模态框，通过事件委托绑定事件
+    $('tbody').on("click",".btn",function(){
+        // console.log('111');
+        // 显示模态框
+        $('#userModal').modal("show");
+
+        //同时，获取当前按钮的用户ID
+        currentId=$(this).parent().data("id");
+        // console.log(currentId);
+        // 点击禁用按钮的同时，获取isDelete的值：0 表示用户状态为已经禁用
+        isDelete=$(this).hasClass("btn-danger") ? 0 :1;
+
+    });
+
+    //B.点击模态框的确定按钮，实现用户状态修改,发送ajax请求,参数文档显示为需要id和isDelete
+    $('#submitBtn').on("click",function(){
+        $.ajax({
+            type:"post",
+            url:"/user/updateUser",
+            data:{
+                id:currentId,
+                isDelete:isDelete
+            },
+            dataType:"json",
+            success:function(info){
+                // 
+                if(info.success){
+                    // 关闭模态框
+                    $('#userModal').modal("hide");
+                    //重新渲染
+                    render();
+                }
+            }
+        })
+        
+    });
     
 
 });
