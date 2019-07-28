@@ -22,7 +22,7 @@ $(function(){
             success:function(info){
                 //  console.log(info)
     
-                // 3.模板引擎渲染template(模板id,数据对象)
+                // 3.模板引擎渲染template(模板id,数据对象),tpl为模板上定义的id
                 var htmlStr = template("tpl",info);
                 // 4.根据生成的 htmlStr 模板，渲染tbody
                 $('tbody').html( htmlStr );
@@ -30,9 +30,12 @@ $(function(){
     
                 // 分页插件
             $('#paginator').bootstrapPaginator({
-                bootstrapMajorVersion:3, //指定boostrap的版本
-                totalPages:Math.ceil( info.total/info.size),  //总页数
-                currentPage:info.page,  //当前页
+                //指定boostrap的版本
+                bootstrapMajorVersion:3, 
+                 //总页数
+                totalPages:Math.ceil( info.total/info.size), 
+                //当前页
+                currentPage:info.page,  
                 // 给分页按钮添加点击事件
                 onPageClicked:function(a,b,c,page){
                     console.log(page);
