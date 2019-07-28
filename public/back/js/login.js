@@ -1,6 +1,6 @@
 $(function() {
 
-    //进行表单校验配置
+    //1.进行表单校验配置
     $('#form').bootstrapValidator({
 
 
@@ -102,8 +102,8 @@ $(function() {
     $('[type="reset"]').click(function(){
         //调用插件的方法
         //resetForm(boolean)
-        //1.ture 表示将内容和状态都重置 2.false 表示只重置表单状态
-        $('#form').data("bootstrapValidator").resetForm();
+        //1.true 表示将内容和状态都重置 2.false 表示只重置表单状态,默认为false
+        $('#form').data("bootstrapValidator").resetForm(true);
 
 
         
