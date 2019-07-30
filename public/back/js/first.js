@@ -25,7 +25,7 @@ $(function(){
                 $('tbody').html(htmlStr);
                 
 
-                // 2.分页插件初始化
+            // 2.分页插件初始化
             $('#paginator').bootstrapPaginator({
             // a.版本号 3
             bootstrapMajorVersion:3,

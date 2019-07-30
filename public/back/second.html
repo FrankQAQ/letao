@@ -59,11 +59,92 @@
                 <li class="active">分类管理</li>
                 <li class="active">二级分类</li>
         </ol>
+   
+        <div class="lt_content">
+            <button class="btn btn-default mb_20" id="addBtn">添加分类</button>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th width="10%">序号</th>
+                        <th width="30%">一级分类名称</th>
+                        <th width="30%">二级分类名称</th>
+                        <th width="30%">二级分类LOGO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <!-- 挖个坑 -->
+                </tbody>
+            </table>
+
+            <div class="pull-right">
+                <!-- 1.分页插件容器 -->
+                <ul id="paginator"></ul>
+            </div>
+            
+
+        </div>
 
 
     </div>
 
 </div>
+
+<!--添加分类模态框 modal-lg,modal-sm 大，小模态框，默认是中    data-dismiss="modal" 可用于关闭模态框-->
+<div class="modal fade" tabindex="-1" id="addModal">
+    <div class="modal-dialog modal-sm" >
+      <div class="modal-content">
+        <form id="form">
+          <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ><span >&times;</span></button>
+          <h4 class="modal-title">添加分类</h4>
+          </div>
+  
+          <div class="modal-body">
+            <div class="form-group">
+                  <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                      <!-- 小细节，文本用span包起来 -->
+                      <span id="dropdownText">请选择一级分类</span>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <!-- 刨个坑 -->
+                    </ul>
+                  </div>
+                  <!-- 通过表单隐藏域type="hidden"，存下拉框用户所点击的分类Id ，这样才能提交 -->
+                  <input type="hidden" name="categoryId">
+                  <!-- 火热的品牌,1表示火热，0表示不火热，默认1 -->
+                  <input type="hidden" name="hot" value="1">
+            </div>
+            <div class="form-group">
+                  <input type="text" class="form-control" placeholder="请输入二级分类" name="brandName">
+            </div>
+            <div class="form-group">
+                  <label class="btn btn-default" for="fileupload">上传图片</label>
+                  <!-- 注意:
+                          1. 指定name用于让后台获取图片, 所以不能乱写
+                          2. 指定data-url, 指定接口地址
+                  -->
+                  <input type="file" name="pic1" data-url="/category/addSecondCategoryPic" id="fileupload" style="display: none;">
+            </div>
+            <div class="form-group" id="imgBox">
+              <img src="./images/none.png" width="100" height="100" alt="" >
+              <!-- 通过表单隐藏域type="hidden"，存下拉框用户所上传的图片地址 ，这样才能提交，brandLogo接口名 -->
+              <input type="hidden" type="text" name="brandLogo">
+            </div>
+          
+          </div>
+  
+          <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <!-- submit按钮提交数据，但是得和form一起使用，所以用from包裹住整体结构 -->
+          <button type="submit" class="btn btn-primary" id="add">添加</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
 <!-- 模态框 modal-lg,modal-sm 大，小模态框，默认是中    data-dismiss="modal" 可用于关闭模态框-->
 <div class="modal fade" tabindex="-1" id="logoutModal">
@@ -86,13 +167,43 @@
       </div>
     </div>
   </div>
-    
+
+
+  <!-- 2.准备表格模板引擎 -->
+
+  <script type="text/template" id="secondTpl">
+
+    {{each rows v i}}
+    <tr>	
+        <td>{{i+1+(page-1)*size}}</td>
+        <td>{{v.categoryName}}</td>
+        <td>{{v.brandName}}</td>
+        <td><img height="50" src="{{v.brandLogo}}" alt=""></td>
+    </tr>
+  {{/each}}
+
+</script>
+
+
+<!-- 添加分类下拉框模板引擎 -->
+<script type="text/template" id="dropdownTpl">
+{{each rows v i}}
+<li><a data-id= "{{v.id}}" href="#">{{v.categoryName}}</a></li>
+{{/each}}
+</script>     
+
+
 
     <script src="./libs/jquery/jquery.min.js"></script>
+    <script src="./libs/jquery-fileupload/jquery.ui.widget.js"></script>
+    <script src="./libs/jquery-fileupload/jquery.fileupload.js"></script>
     <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
     <script src="./libs/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+    <script src="./libs/bootstrap-paginator/bootstrap-paginator.min.js"></script>
+    <script src="./libs/artTemplate/template-web.js"></script>
     <script src="./libs/nprogress/nprogress.js"></script>
     <script src="./js/checklogin.js"></script>
     <script src="./js/common.js"></script>
+    <script src="./js/second.js"></script>
 </body>
 </html> 
