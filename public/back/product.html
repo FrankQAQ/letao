@@ -61,7 +61,7 @@
         </ol>
    
         <div class="lt_content">
-            <button class="btn btn-default mb_20" id="addBtn">添加分类</button>
+            <button class="btn btn-default mb_20" id="addBtn">添加商品</button>
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -93,14 +93,14 @@
 
 </div>
 
-<!--添加分类模态框 modal-lg,modal-sm 大，小模态框，默认是中    data-dismiss="modal" 可用于关闭模态框-->
+<!--添加商品模态框 modal-lg,modal-sm 大，小模态框，默认是中    data-dismiss="modal" 可用于关闭模态框-->
 <div class="modal fade" tabindex="-1" id="addModal">
-    <div class="modal-dialog modal-sm" >
+    <div class="modal-dialog " >
       <div class="modal-content">
         <form id="form">
           <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" ><span >&times;</span></button>
-          <h4 class="modal-title">添加分类</h4>
+          <h4 class="modal-title">添加商品</h4>
           </div>
   
           <div class="modal-body">
@@ -108,7 +108,7 @@
                   <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                       <!-- 小细节，文本用span包起来 -->
-                      <span id="dropdownText">请选择一级分类</span>
+                      <span id="dropdownTxt">请选择二级分类</span>
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
@@ -116,23 +116,40 @@
                     </ul>
                   </div>
                   <!-- 通过表单隐藏域type="hidden"，存下拉框用户所点击的分类Id ，这样才能提交 -->
-                  <input type="hidden" name="categoryId">
-                  <!-- 火热的品牌,1表示火热，0表示不火热，默认1 -->
-                  <input type="hidden" name="hot" value="1">
+                  <input type="hidden" name="brandId">
+
             </div>
             <div class="form-group">
-                  <input type="text" class="form-control" placeholder="请输入二级分类" name="brandName">
+              <input type="text" class="form-control" placeholder="请输入商品名称" name="proName">
             </div>
+            <!-- textarea 文本域 -->
+            <div class="form-group">
+              <textarea class="form-control" rows="3" placeholder="请输入商品描述" name="proDesc"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="请输入商品库存" name="num">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="请输入商品尺码" name="size">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="请输入商品原价" name="oldPrice">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="请输入商品现价" name="price">
+            </div>
+        
             <div class="form-group">
                   <label class="btn btn-default" for="fileupload">上传图片</label>
-                  <!-- 注意:
+                  <!-- 文件上传配置注意:
                           1. 指定name用于让后台获取图片, 所以不能乱写
                           2. 指定data-url, 指定接口地址
+                          3. multiple可以让用户选择多张图片
                   -->
-                  <input type="file" name="pic1" data-url="/category/addSecondCategoryPic" id="fileupload" style="display: none;">
+                  <input type="file" multiple name="pic1" data-url="/product/addProductPic" id="fileupload" style="display: none;">
             </div>
             <div class="form-group" id="imgBox">
-              <img src="./images/none.png" width="100" height="100" alt="" >
+              
               <!-- 通过表单隐藏域type="hidden"，存下拉框用户所上传的图片地址 ，这样才能提交，brandLogo接口名 -->
               <input type="hidden" type="text" name="brandLogo">
             </div>
@@ -194,6 +211,12 @@
   {{/each}}
   </script>
 
+  <!-- 二级分类下拉框模板引擎 -->
+  <script type="text/html" id="dropdownTpl">
+    {{each rows v i}}
+    <li><a data-id= "{{v.id}}" href="#">{{v.brandName}}</a></li>
+    {{/each}}
+  </script>
 
 
     <script src="./libs/jquery/jquery.min.js"></script>
