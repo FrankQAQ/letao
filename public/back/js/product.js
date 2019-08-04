@@ -117,10 +117,11 @@ $(function(){
     // 获取 id, 设置给隐藏域
     var id = $(this).data("id");
     $('[name="brandId"]').val( id );
-
+    // 手动将 name="brandId" 的input, 校验状态置成 VALID
+    $('#form').data("bootstrapValidator").updateStatus("brandId", "VALID");
   });
 
-  // 进行文件上传初始化
+  //4.进行文件上传初始化
   $('#fileupload').fileupload({
     dataType:"json",
     // 文件上传, 响应回来时调用的回调函数
@@ -143,7 +144,155 @@ $(function(){
         // 数组移除最后一项
         picArr.pop();
       }
+      // 如果数组的长度等于 3, 说明文件上传了 3张, 可以提交
+      // 更新表单校验状态 picStatus 为 VALID
+      if ( picArr.length === 3 ) {
+        $('#form').data("bootstrapValidator").updateStatus("picStatus", "VALID");
+      }
     }
+  });
+
+  // 5. 调用插件方法, 进行表单校验
+  $('#form').bootstrapValidator({
+    // 注意：因为我们有隐藏的INPUT需要校验，所以将默认的排除项, 
+    //       重置掉 (默认会对 ':hidden', ':disabled'等进行排除)
+    excluded: [],
+    // 配置图标,固定写法
+    feedbackIcons: {
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    
+    //  校验字段
+    fields:{
+      brandId:{
+        validators:{
+          notEmpty:{
+            message:"请选择二级分类"
+          }       
+        }
+      },
+      proName:{
+        validators:{
+          notEmpty:{
+            message:"请输入商品名称"
+          }          
+        }
+      },
+      proDesc:{
+        validators:{
+          notEmpty:{
+            message:"请输入商品描述"
+          }          
+        }
+      },
+      num:{
+        validators:{
+          notEmpty:{
+            message:"请选择商品库存"
+          },
+          // 正则校验
+  /*
+      * 正则复习, ^ 以...开头, $ 以...结尾
+      * [] 内, 表示可以出现的字符
+      * [1-9], 表示可以出现 1,2,3,4....9
+      * \d 表示 0-9的数字
+      *
+
+        * 表示 0 个 或 多个
+        + 表示 1 个 或 多个
+        ? 表示 0 个 或 1个
+        {n}   表示出现 n次
+        {n,m} 表示出现 n-m 次
+
+      * */
+
+          regexp:{
+            regexp:/^[1-9]\d*$/,
+            message:"商品库存必须是非零开头的数字"
+          }          
+        }
+      },
+      //库存非空，尺码格式为xx-xx的数字格式
+      size:{
+        validators:{ 
+          notEmpty:{
+            message:"库存不能为空"
+          },
+          // 正则校验
+          regexp:{
+            regexp:/^\d{2}-\d{2}$/,
+            message:"尺码格式为xx-xx的数字格式,例如32-40"
+          } 
+        },
+      },
+      price: {
+        validators: {
+          notEmpty: {
+            message: "请输入商品现价"
+          }
+        }
+      },
+      oldPrice: {
+        validators: {
+          notEmpty: {
+            message: "请输入商品原价"
+          }
+        }
+      },
+      // 标记图片是否上传满3张,是否是3张，在上传图片时进行手动验证
+      picStatus:{
+        validators:{
+          notEmpty: {
+            message: "请上传三张图片"
+          }
+        }
+      },
+
+    },
+  });
+
+  // 注册表单校验成功事件, 阻止默认的表单提交, 通过ajax提交
+  $('#form').on("success.form.bv",function(e){
+    e.preventDefault();
+    // 注意：$('#form').serialize() 只能获取设置 name的表单元素的值,
+    //      里面没有图片信息, 所以需要拼接
+    // brandId=&statu=1&键=值&..
+    // &picName1=xx&picAddr1=xx
+    // &picName2=xx&picAddr2=xx
+    // &picName3=xx&picAddr3=xx
+    var paramsStr = $('#form').serialize();
+    paramsStr += "&picName1="+ picArr[0].picName +"&picAddr1=" + picArr[0].picAddr;
+    paramsStr += "&picName2="+ picArr[1].picName +"&picAddr2=" + picArr[1].picAddr;
+    paramsStr += "&picName3="+ picArr[2].picName +"&picAddr3=" + picArr[2].picAddr;
+
+    $.ajax({
+      type:"post",
+      url:"/product/addProduct",
+      data:paramsStr,
+      dataType:"json",
+      success:function(info){
+        //查看network,图片是否上传成功
+        // console.log(info);
+        if ( info.success ) {
+          // 关闭模态框
+          $('#addModal').modal("hide");
+          // 页面重新渲染第一页
+          currentPage = 1;
+          render();
+          // 重置表单, 内容和状态都重置
+          $('#form').data("bootstrapValidator").resetForm(true);
+
+          // 下拉框按钮和图片不是表单元素, 需要手动重置
+          $('#dropdownTxt').text("请选择二级分类");
+          // 移除所有的图片
+          $('#imgBox img').remove();
+          picArr = []; // 同步图片全局变量的数组
+        }
+      }
+    });
+
   });
 
 });
